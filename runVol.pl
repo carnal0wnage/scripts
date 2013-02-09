@@ -1,4 +1,10 @@
 #!/usr/bin/perl -ws
+# Joe's Automatic Volatility Analysis Script
+# Usage: runVol.pl <memory file to analyze>
+# 
+# To Do: 
+#   * Modify initial analysis to detect multi-core or multi-processor machines
+#   *
 
 ## Global Variables
 my $python = "/usr/bin/python";
@@ -45,7 +51,19 @@ sub getProfile {
 sub runPlugins {
   foreach my $plugin (@plugins) {
     print "* Running plugin $plugin...";
-    my @o = `$python $volPath -f $sample --profile=$profile --output-file=analysis/$sample-$plugin.txt $plugin`;
+    my $opts = "";
+# Some plugins require additional configuration
+    if( $plugin =~ /enumfunc/ ) {
+      $opts = "-P -E"; # Process Exports
+      my @o = `$python $volPath -f $sample --profile=$profile --output-file=analysis/$sample-$plugin-procExp.txt $plugin $opts`;
+      $opts = "-K -I"; # Kernel Imports
+      my @o = `$python $volPath -f $sample --profile=$profile --output-file=analysis/$sample-$plugin-kernImp.txt $plugin $opts`;
+
+    } else {
+      my @o = `$python $volPath -f $sample --profile=$profile --output-file=analysis/$sample-$plugin.txt $plugin`;
+    }
   }
 }
+
+
 
