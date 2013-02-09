@@ -20,6 +20,9 @@ exit;
 
 sub main {
   ssdt();
+  timers();
+  gdt();
+  idt();
 }
 
 # Plugin(s): pslist
@@ -76,13 +79,35 @@ sub apihooks {
 # Plugin(s): idt
 # Look for badness (ntoskrnl.exe with a non-.text segment, etc.)
 sub idt {
-
+  my $file = "./analysis/$sample-idt.txt";
+  open( IDT, "$file" ) || return;
+  while( <IDT> ) {
+    $line = $_;
+    chomp $line;
+    if( $line =~ /ntoskrnl.exe[ \t]+.text/i ) {
+# Ignore
+    } elsif( $line =~ /hal.dll[ \t]+.text/i ) {
+# Ignore
+    } elsif( $line =~ /[a-fA-F0-9]+[ \t]+UNKNOWN/i ) {
+# Ignore
+    } else {
+      print "IDT: $line\n";
+    }
+  } 
+  close( IDT );
 }
 
 # Plugin(s): gdt
 # Look for callgates, etc.
 sub gdt {
-
+  my $file = "./analysis/$sample-gdt.txt";
+  open( GDT, "$file" ) || return;
+  while( <GDT> ) {
+    if( $_ =~ /callgate/i ) {
+      print "GDT: $_\n";
+    }
+  } 
+  close( GDT );
 }
 
 # Plugin(s): callbacks
@@ -100,7 +125,14 @@ sub psxview {
 # Plugin(s): timers
 # Look for timers hidden in strange parts of memory, etc.
 sub timers {
-
+  my $file = "./analysis/$sample-timers.txt";
+  open( TIMERS, "$file" ) || return;
+  while( <TIMERS> ) {
+    if( $_ =~ /unknown/i ) {
+      print "TIMERS: $_\n";
+    }
+  } 
+  close( TIMERS );
 }
 
 
