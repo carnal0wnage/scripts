@@ -8,6 +8,19 @@
 # * Opens up the analysis directory and looks for analysis/mem-*.txt
 # * For each plugin, we'll have a list of things to look for
 
+my $sample = "";
+
+if( $#ARGV == 0 ) {
+  $sample = $ARGV[0];
+  main();
+} else {
+  print "Usage: runVol.pl <memory file>\n";
+}
+exit;
+
+sub main {
+  ssdt();
+}
 
 # Plugin(s): pslist
 # * Looking for all processes with potentially suspicious parents
@@ -27,7 +40,18 @@ sub modules {
 # Plugin(s): ssdt
 # Look for entries in the SSDT not owned by ntoskrnl.exe or win32k.sys
 sub ssdt {
-
+  my $file = "./analysis/$sample-ssdt.txt";
+  open( SSDT, "$file" ) || return;
+  while( <SSDT> ) {
+    if( $_ =~ /ntoskrnl.exe/ ) {
+      # Ignore
+    } elsif( $_ =~ /win32k.sys/ ) {
+      # Ignore
+    } else {
+      print "SSDT: $_";
+    }
+  }
+  close( SSDT );
 }
 
 # Plugin(s): svcscan
@@ -58,16 +82,6 @@ sub idt {
 # Plugin(s): gdt
 # Look for callgates, etc.
 sub gdt {
-
-}
-
-# Plugin(s): callbacks
-# Look for potentially suspicious callbacks
-sub callbacks {
-
-}# Plugin(s): callbacks
-# Look for potentially suspicious callbacks
-sub callbacks {
 
 }
 
