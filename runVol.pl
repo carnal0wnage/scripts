@@ -58,12 +58,12 @@ sub runPlugins {
       my @o = `$python $volPath -f $sample --profile=$profile --output-file=analysis/$sample-$plugin-procExp.txt $plugin $opts`;
       $opts = "-K -I"; # Kernel Imports
       my @o = `$python $volPath -f $sample --profile=$profile --output-file=analysis/$sample-$plugin-kernImp.txt $plugin $opts`;
-
     } else {
       my @o = `$python $volPath -f $sample --profile=$profile --output-file=analysis/$sample-$plugin.txt $plugin`;
     }
   }
 }
+
 
 
 
