@@ -23,6 +23,7 @@ sub main {
   timers();
   gdt();
   idt();
+  callbacks();
 }
 
 # Plugin(s): pslist
@@ -46,12 +47,14 @@ sub ssdt {
   my $file = "./analysis/$sample-ssdt.txt";
   open( SSDT, "$file" ) || return;
   while( <SSDT> ) {
-    if( $_ =~ /ntoskrnl.exe/ ) {
+    my $line = $_;
+    chomp $line;
+    if( $line =~ /ntoskrnl.exe/ ) {
       # Ignore
-    } elsif( $_ =~ /win32k.sys/ ) {
+    } elsif( $line =~ /win32k.sys/ ) {
       # Ignore
     } else {
-      print "SSDT: $_";
+      print "SSDT: $line\n";
     }
   }
   close( SSDT );
@@ -82,7 +85,7 @@ sub idt {
   my $file = "./analysis/$sample-idt.txt";
   open( IDT, "$file" ) || return;
   while( <IDT> ) {
-    $line = $_;
+    my $line = $_;
     chomp $line;
     if( $line =~ /ntoskrnl.exe[ \t]+.text/i ) {
 # Ignore
@@ -103,8 +106,10 @@ sub gdt {
   my $file = "./analysis/$sample-gdt.txt";
   open( GDT, "$file" ) || return;
   while( <GDT> ) {
-    if( $_ =~ /callgate/i ) {
-      print "GDT: $_\n";
+    my $line = $_;
+    chomp $line;
+    if( $line =~ /callgate/i ) {
+      print "GDT: $line\n";
     }
   } 
   close( GDT );
@@ -113,7 +118,20 @@ sub gdt {
 # Plugin(s): callbacks
 # Look for potentially suspicious callbacks
 sub callbacks {
-
+  my $file = "./analysis/$sample-callbacks.txt";
+  open( CALLBACKS, "$file" ) || return;
+  while( <CALLBACKS> ) {
+    my $line = $_;
+    chomp $line;
+    if( $line =~ /driver/i ) { # callbacks to drivers
+      print "CALLBACKS: $line\n";
+    } elsif( $line =~ /unknown/i ) { # Callbacks to unknown modules
+      print "CALLBACKS: $line\n";
+    } elsif( $line =~ /([0-9a-fA-F]+){8}$/i ) { # Black Energy 2's module name = 8 hex characters
+      print "CALLBACKS: $line\n";
+    }
+  } 
+  close( CALLBACKS );
 }
 
 # Plugin(s): psxview
@@ -128,8 +146,10 @@ sub timers {
   my $file = "./analysis/$sample-timers.txt";
   open( TIMERS, "$file" ) || return;
   while( <TIMERS> ) {
-    if( $_ =~ /unknown/i ) {
-      print "TIMERS: $_\n";
+    my $line = $_;
+    chomp $line;
+    if( $line =~ /unknown/i ) {
+      print "TIMERS: $line\n";
     }
   } 
   close( TIMERS );
