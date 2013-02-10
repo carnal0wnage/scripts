@@ -11,7 +11,7 @@ my $python = "/usr/bin/python";
 my $volPath = "/home/barrettj/code/Volatility/vol.py";
 my $sample = "";
 my $profile = "";
-my @plugins = qw(kdbgscan kprcscan pslist pstree psscan dlllist handles getsids cmdscan consoles enumfunc modules modscan ssdt driverscan filescan mutantscan symlinkscan thrdscan connections connscan sockets sockscan netscan hivescan hivelist shellbags shimcache mftparser malfind svcscan ldrmodules apihooks idt gdt threads callbacks driverirp devicetree psxview timers);
+my @plugins = qw(kdbgscan kpcrscan pslist pstree psscan dlllist handles getsids cmdscan consoles enumfunc modules modscan ssdt driverscan filescan mutantscan symlinkscan thrdscan connections connscan sockets sockscan netscan hivescan hivelist shellbags shimcache mftparser malfind svcscan ldrmodules apihooks idt gdt threads callbacks driverirp devicetree psxview timers);
 
 # Getting command line arg
 if( $#ARGV == 0 ) {
