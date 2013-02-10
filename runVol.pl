@@ -11,7 +11,9 @@ my $python = "/usr/bin/python";
 my $volPath = "/home/barrettj/code/Volatility/vol.py";
 my $sample = "";
 my $profile = "";
-my @plugins = qw(kdbgscan kpcrscan pslist pstree psscan dlllist handles getsids cmdscan consoles enumfunc modules modscan ssdt driverscan filescan mutantscan symlinkscan thrdscan connections connscan sockets sockscan netscan hivescan hivelist shellbags shimcache mftparser malfind svcscan ldrmodules apihooks idt gdt threads callbacks driverirp devicetree psxview timers);
+# kpcrscan - takes forever
+# enumfunc - not in my code tree, but on the wiki - new plugin?
+my @plugins = qw(kdbgscan pslist pstree psscan dlllist handles getsids cmdscan consoles modules modscan ssdt driverscan filescan mutantscan symlinkscan thrdscan connections connscan sockets sockscan netscan hivescan hivelist shellbags shimcache mftparser malfind svcscan ldrmodules apihooks idt gdt threads callbacks driverirp devicetree psxview timers);
 
 # Getting command line arg
 if( $#ARGV == 0 ) {
