@@ -1,7 +1,7 @@
 #!/usr/bin/perl -ws
 #
 # Joe's Volatility Output Analysis Script
-# * takes the mem-plugin.txt files output from runVol.pl
+#   takes the mem-plugin.txt files output from runVol.pl
 #   and performs triage-level analysis looking for glaringly bad things
 
 # Usage: analyzeVol.pl <memory file>
@@ -18,6 +18,7 @@ if( $#ARGV == 0 ) {
 }
 exit;
 
+# Call each of the analysis functions in turn. Order? Bah, who cares what order it's in?
 sub main {
   ssdt();
   timers();
@@ -26,6 +27,7 @@ sub main {
   callbacks();
   svcscan();
   apihooks();
+  psxview();
 }
 
 # Plugin(s): pslist
@@ -123,7 +125,7 @@ sub apihooks {
     } elsif( $line =~ /Hooking module: (.*)/ ) {
       $bin = $1;
       $hook = $hook . "APIHOOKS: Hooking module: $1\n\n";
-#      if( $type eq "k" ) {
+#      if( $type eq "k" ) { # If we decide we only want to print kernel-mode API hooks, this is where we do it.
         print "$hook";
         #     }
       $hook = ""; $type = "";
@@ -197,6 +199,18 @@ sub callbacks {
 # Plugin(s): psxview
 # Look for processes that are hidden in one or more ways
 sub psxview {
+  my $file = "./analysis/$sample-psxview.txt";
+  open( PSXVIEW, "$file" ) || return;
+  while( <PSXVIEW> ) {
+    my $line = $_;
+    chomp $line;
+    if( $line =~ /Offset/i ) {
+      print "PSXVIEW: $line\n";
+    } elsif( $line =~ /false/i ) {
+      print "PSXVIEW: $line\n";
+    }
+  } 
+  close( PSXVIEW );
 
 }
 
