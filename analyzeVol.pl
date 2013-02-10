@@ -123,12 +123,18 @@ sub callbacks {
   while( <CALLBACKS> ) {
     my $line = $_;
     chomp $line;
-    if( $line =~ /driver/i ) { # callbacks to drivers
-      print "CALLBACKS: $line\n";
-    } elsif( $line =~ /unknown/i ) { # Callbacks to unknown modules
-      print "CALLBACKS: $line\n";
-    } elsif( $line =~ /([0-9a-fA-F]+){8}$/i ) { # Black Energy 2's module name = 8 hex characters
-      print "CALLBACKS: $line\n";
+    if( $line =~ /^([a-zA-Z]+)[ \t]+(0x[0-9A-Fa-f]+)[ \t]+([a-zA-Z0-9\.]+)[ \t]+(.*)$/i ) {
+      my $callbackFunction = $1;
+      my $callbackAddr = $2;
+      my $module = $3;
+      my $details = $4;
+      if( $module =~ /driver/i ) {
+        print "CALLBACKS: $line\n";
+      } elsif( $module =~ /unknown/i ) { # Callbacks to unknown modules
+        print "CALLBACKS: $line\n";
+      } elsif( $module =~ /([0-9a-fA-F]+){8}/i ) { # Black Energy 2's module name = 8 hex characters
+        print "CALLBACKS: $line\n";
+      }
     }
   } 
   close( CALLBACKS );
