@@ -25,6 +25,7 @@ sub main {
   idt();
   callbacks();
   svcscan();
+  apihooks();
 }
 
 # Plugin(s): pslist
@@ -101,6 +102,34 @@ sub ldrmodules {
 # Plugin(s): apihooks
 # Look for kernel mode hooks, display the type of hook, victim module and hooking module
 sub apihooks {
+  my $file = "./analysis/$sample-apihooks.txt";
+  open( APIHOOKS, "$file" ) || return;
+  my $hook = "";
+  my $type = "";
+  while( <APIHOOKS> ) {
+    my $line = $_;
+    chomp $line;
+    if( $line =~ /Hook mode: (.*)/ ) {
+      $hook = $hook . "APIHOOKS: Hook Mode: $1\n";;
+      if( $1 =~ /kernel/i ) {
+        $type = "k";
+      } else {
+        $type = "u";
+      }
+    } elsif( $line =~ /Hook type: (.*)/ ) {
+      $hook = $hook . "APIHOOKS: Hook Type: $1\n";;
+    } elsif( $line =~ /Victim module: (.*)/ ) {
+      $hook = $hook . "APIHOOKS: Victim Module: $1\n";;
+    } elsif( $line =~ /Hooking module: (.*)/ ) {
+      $bin = $1;
+      $hook = $hook . "APIHOOKS: Hooking module: $1\n\n";
+#      if( $type eq "k" ) {
+        print "$hook";
+        #     }
+      $hook = ""; $type = "";
+    }
+  }
+  close( APIHOOKS );
 
 }
 
