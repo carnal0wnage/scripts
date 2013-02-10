@@ -24,6 +24,7 @@ sub main {
   gdt();
   idt();
   callbacks();
+  svcscan();
 }
 
 # Plugin(s): pslist
@@ -64,6 +65,30 @@ sub ssdt {
 # Look for services started in unusual locations (i.e.: not system32)
 # Ideally: build a whitelist of known-good services and identify all others
 sub svcscan {
+  my $file = "./analysis/$sample-svcscan.txt";
+  open( SVCSCAN, "$file" ) || return;
+  my $svc = "";
+  while( <SVCSCAN> ) {
+    my $line = $_;
+    chomp $line;
+    if( $line =~ /Service Name: (.*)/ ) {
+      $svc = $svc . "SVCSCAN: Service Name: $1\n";
+    } elsif( $line =~ /Service Type: (.*)/ ) {
+      $svc = $svc . "SVCSCAN: Service Type: $1\n";
+    } elsif( $line =~ /Binary Path: (.*)/ ) {
+      $bin = $1;
+      if( $bin =~ /^\-$/ ) {
+        # No path
+      } elsif( $bin =~ /windows.*system32/i ) {
+        # System32 doesn't mean trusted, but this is triage analysis.
+      } else {
+        $svc = $svc . "SVCSCAN: Binary Path: $1\n\n";
+        print "$svc";
+      }
+      $svc = "";
+    }
+  }
+  close( SVCSCAN );
 
 }
 
