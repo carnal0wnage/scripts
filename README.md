@@ -1,3 +1,6 @@
 scripts
 =======
-These are my scripts to do volatility analysis.
+Scripts to automate various INFOSEC related tasks.
+
+* analyzeVol.pl
+* runVol.pl
