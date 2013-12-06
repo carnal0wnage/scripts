@@ -14,6 +14,11 @@ def listvulns
   p response.to_s
 end
 
+def listScans
+  response = RestClient.post "#{@nessus}/scan/list", { :token => @token, :seq => '2812', :report => @uuid, :json => 1  }
+  p response.to_s
+end
+
 def queryPlugin
   pluginid = 10302
   sev = 0
@@ -68,10 +73,9 @@ response.cookies.each do |c|
   end
 end
 
-# URI of the scan we care about (post to /scan/list for list of scans)
+#listScans       # Uncomment this line to list all scans in the nessus database
+# URI of the scan we care about 
 @uuid = URI::encode("b3a1680b-f701-ba73-7479-7a74c05534b05118cdcf245c6ce5")
-# Looking 
-
 
 queryPlugin
 exit
