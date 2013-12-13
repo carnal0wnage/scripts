@@ -1,4 +1,4 @@
-# survey
+# survey.rb
 # Modular post-exploitation survey kit
 # 
 
@@ -37,8 +37,8 @@ def getnetinfo( session )
   end
 end
 
+# Grabs and prints process information about the target
 def getprocinfo( session )
-# Enumerates all running processes
   print_status("Getting process information ...")
   processes = session.sys.process.get_processes
   print_status("\tProcess Name\tPID\tPPID\tOwner\tArch")
@@ -51,22 +51,29 @@ def getprocinfo( session )
   end
 end
 
+
+## Script Initialization
 time_stamp  = ::Time.now.strftime('%Y-%m-%d:%H:%M:%S')
 print_status("Survey Initializing #{time_stamp.to_s}")
 
-# Runs prepared function
+# Runs prepared functions
 getinfo( session )
 getnetinfo( session )
 getprocinfo( session )
 
-if (session.type == "meterpreter")
-  uid = session.sys.config.getuid
-  # If we're not system, bail on out
-  if (uid != "NT AUTHORITY\\SYSTEM")
-    print_error("Error, must have SYSTEM meterpreter shell")
-    return
-  end
 
+
+time_stamp  = ::Time.now.strftime('%Y-%m-%d:%H:%M:%S')
+print_status("Survey Complete #{time_stamp.to_s}")
+
+#if (session.type == "meterpreter")
+#  uid = session.sys.config.getuid
+  # If we're not system, bail on out
+#  if (uid != "NT AUTHORITY\\SYSTEM")
+#    print_error("Error, must have SYSTEM meterpreter shell")
+#    return
+#  end
+# end
 
   # Figure out what our IP address is
   # ARP scan the subnet
@@ -91,5 +98,4 @@ if (session.type == "meterpreter")
 
 
 
-end # End if meterpreter
 
