@@ -1,4 +1,7 @@
 #!/usr/bin/env ruby
+# NFS Filesystem Trawl
+# Mounts up world-readable NFS exports, performs a full find on the filesystems.
+# Yea, this will take a while....
 
 # Parse the gnmap file looking for nfs servers
 def parse( filename )
