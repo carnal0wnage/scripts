@@ -20,7 +20,7 @@ ARGV.each do |f|
     # flush buffer
     t.flush
     # Display file with browser
-    system "iceweasel #{t.path}"
+    system "firefox #{t.path}"
     # Close temp file to destroy
     t.close
   else
