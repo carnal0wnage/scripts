@@ -118,6 +118,7 @@ def drawEndpoints( page, stencil )
   end
 end
 
+# Draw the two endpoints of the conversation and a connection between
 def drawConversations( page, stencil )
   i = 0
   j = 0
@@ -125,12 +126,17 @@ def drawConversations( page, stencil )
     shape1 = page.Drop( stencil, i, j) # inches from lower left corner of document page
     shape1.Text = k
     v.each do |other|
-      shape2 = page.Drop( stencil, i, j )
+      shape2 = page.Drop( stencil, i, j+1 )
       shape2.Text = other
-     #ap shape2.ole_methods
-#     ap page.ole_methods.collect! { |e| e.to_s }.sort
-      page.AutoConnectMany( shape1, shape2, 1 )
-exit
+
+# Print out all of the OLE methods for this object
+#     ap shape2.ole_methods.collect! { |e| e.to_s }.sort
+
+# Create the connector object
+      conn = @stencil.Masters("Dynamic Connector")
+# Link the two shapes with a connector, 0 = no arrows/direction
+      shape2.AutoConnect( shape1, 0, conn )
+      
     end
     if( i < 8 )
       i += 1
@@ -139,6 +145,8 @@ exit
       i = 0
     end
   end
+# Center on our stuff
+  page.CenterDrawing
 end
 
 ### Main Program Flow ### 
@@ -170,8 +178,9 @@ visio.ActiveWindow.Zoom = 1 # Zoom to 100%
 page = visio.ActiveDocument.Pages.Item(1)
 
 # Grab a stencil
-stencil = visio.Documents("Servers.vss")
-server1 = stencil.Masters("Server")
+@stencil = visio.Documents("Servers.vss")
+#@connects = visio.Documents("CONNEC_U.vss")
+server1 = @stencil.Masters("Server")
 
 # Draw the endpoints using the page handle and the given shape
 #drawEndpoints( page, server1 )
