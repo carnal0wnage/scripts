@@ -5,7 +5,9 @@
 
 require 'process'
 
-system( "mkdir -p ~/Foreground/Ops" ) # Ops is our log location
+opsdir = "/opt/Foreground/Ops"
+
+system( "mkdir -p #{opsdir}" ) # Ops is our log location
 
 # Get the date and time
 d = `date +%F:%H-%M`.chomp
@@ -15,7 +17,7 @@ ppid = Process.ppid
 # Print the command to run:
 print "**** Copy and Paste the below for a scripted window ****\n\n"
 
-print "script -a ~/Foreground/Ops/script-#{d}_pid#{ppid}.txt\n"
+print "script -a #{opsdir}/script-#{d}_pid#{ppid}.txt\n"
 print "export PS1=\"%{$fg[red]%}[SCRIPTED]%{$reset_color%} $PS1\"\n"
 
 print "\n\n**** End C&P Block ****\n"
