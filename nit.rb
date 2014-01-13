@@ -138,10 +138,10 @@ def drawConversations( page, stencil )
       shape2.AutoConnect( shape1, 0, conn )
       
     end
-    if( i < 8 )
-      i += 1
+    if( i < 10 )
+      i += 2
     else
-      j += 1
+      j += 2
       i = 0
     end
   end
@@ -188,8 +188,8 @@ drawConversations( page, server1 )
 
 
 # Save the file out to current directory
-#filename = getAbsolutePathName("#{Dir.pwd}/Demo1.vsd")
-#visio.ActiveDocument.SaveAsEx( filename, VisioConst::VisSaveAsWS + VisioConst::VisSaveAsListInMRU)
+filename = getAbsolutePathName("#{Dir.pwd}/Demo1.vsd")
+visio.ActiveDocument.SaveAsEx( filename, VisioConst::VisSaveAsWS + VisioConst::VisSaveAsListInMRU)
 
 
 
