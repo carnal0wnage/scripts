@@ -19,6 +19,10 @@ print "**** Copy and Paste the below for a scripted window ****\n\n"
 
 print "script -a #{opsdir}/script-#{d}_pid#{ppid}.txt\n"
 print "export PS1=\"%{$fg[red]%}[SCRIPTED]%{$reset_color%} $PS1\"\n"
+# Other environment variables we should build:
+# * ops directory where metasploit/armitage logs end up
+# * 
+# 
 
 print "\n\n**** End C&P Block ****\n"
 
