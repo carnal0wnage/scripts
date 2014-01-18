@@ -8,21 +8,23 @@ def clockGuess ( bottom, top )
 	print "** Searching from #{bottom} <-> #{top}: #{guess}\n"
 	@t.write( "%.2f\n" % guess )
 	@t.flush
+	data = ""
 	while buf = ( @t.readpartial(1024) rescue nil )
 		(data ||= "" ) << buf 
 
 		print "d: #{data}\n"
-		if( data =~ /low|south|more|under|cold|over/i ) # We're low, pick the high range
-			print "** We're low, now guessing #{guess} <-> #{top}\n"
+		if( data =~ /low|south|more|under|cold/i ) # We're low, pick the high range
+#			print "** We're low, now guessing #{guess} <-> #{top}\n"
 			clockGuess( "%.2f" % guess.to_f.round(2), "%.2f" % top.to_f.round(2) )
-		elsif( data =~ /high|north|less|hot|steep/i ) # We're high, pick the low range
-			print "** We're high, now guessing #{bottom} <-> #{guess}\n"
+		elsif( data =~ /high|north|less|hot|steep|overguessed/i ) # We're high, pick the low range
+#			print "** We're high, now guessing #{bottom} <-> #{guess}\n"
 			clockGuess( "%.2f" % bottom.to_f.round(2), "%.2f" % guess.to_f.round(2) )
 		else
 #				clockGuess( bottom, top )
-#				print "#{d}\n"
-		end
-	end
+		end # else
+	end # while loop
+
+	print "#{data}\n"
 end
 
 @t = TCPSocket.new( "scripting.kaizen-ctf.com", 15808 )
