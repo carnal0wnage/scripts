@@ -43,14 +43,30 @@ end
 
 ### Start an operation
 def startOp
-  print "Starting operation #{@handle} at time #{Time.now.to_i}\n"
+  @time = Time.now.to_i
+  @opdir = "#{@data}/#{@handle}.#{@time}"
+  print "Starting operation #{@handle} at time #{@time}\n"
+  begin
+    Dir.mkdir("#{@opdir}")
+  rescue
+    print "Failed to make directory. Please fix this.\n"
+    exit
+  end
+# TODO:
+# Create the GUID file with the project name and timestamp in it.
+# Copy the scripter.rb block into the .zshrc file, 
+# Perhaps with a block so it only displays the scripter.rb block if the GUID file exists
+# We should symlink /DATA/current to the existing operation so that everything just works
+# And isn't dependent upon knowing the operation name.
 
 end
 
 
 ### Finish an operation
 def finishOp
-
+# TODO:
+# Tarball-gzip the 
+# Remove the GUID file
 end
 
 
