@@ -10,7 +10,7 @@ opsdir = "/DATA/current/op"
 system( "mkdir -p #{opsdir}" ) # Ops is our log location
 
 # Get the date and time
-d = `date +%F:%H-%M`.chomp
+d = Time.now.to_i
 # Get the shell's process id
 ppid = Process.ppid
 
