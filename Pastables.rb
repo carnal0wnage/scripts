@@ -1,5 +1,13 @@
 #!/usr/bin/env ruby
 # Handy script to help you find pastables
+# When you're trying to do X
+#
+# To Add:
+# * xspy
+# * xwininfo
+# * xwatchwin
+# * screenshot over x11
+# 
 
 
 def sshmasq( host )
