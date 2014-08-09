@@ -5,7 +5,7 @@
 
 require 'process'
 
-opsdir = "/opt/Foreground/Ops"
+opsdir = "/DATA/current/op"
 
 system( "mkdir -p #{opsdir}" ) # Ops is our log location
 

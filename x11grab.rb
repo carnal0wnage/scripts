@@ -10,7 +10,7 @@ ip = ARGV[0].to_s.chomp
 display = ARGV[1].to_s.chomp
 
 d = `date +%F-%H%M%S`.chomp # Get our date in the YYYY-MM-DD-HHMMSS format
-dir = "/opt/Foreground/Ops"
+dir = "/DATA/currentop"
 
 system( "mkdir -p #{dir}" ) # Ensure the directory exists
 
