@@ -7,8 +7,8 @@
 # * xwininfo
 # * xwatchwin
 # * screenshot over x11
-# 
-# * base64 encoded meterpreter bindshells and scripts to help automate the use
+# * Powershell snippets
+# * base64 encoded meterpreter bindshells and scripts to help automate the use thereof
 
 
 
