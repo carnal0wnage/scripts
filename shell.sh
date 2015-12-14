@@ -1,6 +1,8 @@
 #!/bin/sh
 GITREPOS=~/gitrepos
 
+apt-get install git vim zsh -y
+
 # Installing Vundle - Vim plugin manager tool
 git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 # Creating vim backup directory
@@ -192,17 +194,17 @@ set -g status-right '#[fg=yellow]#(cut -d " " -f 1-3 /proc/loadavg)#[default] #[
 set -g default-terminal screen-256color
 EOF
 
-# Installing Solarized for Gnome Terminal
+# Installing Solarized for XFCE Terminal
 apt-get install dconf-cli
 git clone https://github.com/sgerrand/xfce4-terminal-colors-solarized.git $GITREPOS/xfce4-solarized
 cd $GITREPOS/xfce4-solarized
 mkdir -p ~/.config/Terminal/
 mkdir -p ~/.config/xfce4/terminal/
+# Instructions say two different ways. I think only the 2nd is needed, TODO: Test further
 cp dark/terminalrc ~/.config/Terminal/terminalrc
 cp dark/terminalrc ~/.config/xfce4/terminal/terminalrc
 
 # Installing zsh, antigen, and configuring a few basic things
-installpkg zsh 
 mkdir -p ~/.zsh && cd ~/.zsh && git clone https://github.com/zsh-users/antigen.git &&
 git clone https://github.com/supercrabtree/k.git
 
@@ -247,3 +249,4 @@ antigen-apply
 export PATH=\$PATH:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/sbin:/usr/sbin:/usr/local/sbin:/usr/local/bro/bin
 
 EOF
+zsh -l
