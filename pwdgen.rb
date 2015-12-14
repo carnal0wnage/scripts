@@ -34,4 +34,8 @@ def select_words( num )
   print "\n"
 end
 
-select_words( 4 )
+# Generate #num passwords
+pws = 10
+(1..pws).each do 
+  select_words( 4 )
+end
