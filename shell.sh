@@ -1,7 +1,7 @@
 #!/bin/sh
 GITREPOS=~/gitrepos
 
-apt-get install git vim zsh -y
+sudo apt-get install git vim zsh -y
 
 # Installing Vundle - Vim plugin manager tool
 git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
