@@ -1,7 +1,7 @@
 #!/bin/sh
 GITREPOS=~/gitrepos
 
-apt-get install git vim zsh -y
+sudo apt-get install git vim zsh tmux -y
 
 # Installing Vundle - Vim plugin manager tool
 git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
@@ -195,7 +195,7 @@ set -g default-terminal screen-256color
 EOF
 
 # Installing Solarized for XFCE Terminal
-apt-get install dconf-cli
+sudo apt-get install dconf-cli
 git clone https://github.com/sgerrand/xfce4-terminal-colors-solarized.git $GITREPOS/xfce4-solarized
 cd $GITREPOS/xfce4-solarized
 mkdir -p ~/.config/Terminal/
