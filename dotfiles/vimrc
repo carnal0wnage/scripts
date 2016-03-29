@@ -1,4 +1,5 @@
-
+" Joe Barrett's vimrc
+"
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
@@ -53,6 +54,9 @@ set tabstop=2
 set expandtab
 set shiftwidth=2
 
+" Allow unsaved background buffers and remember marks/undo for them
+set hidden
+
 let g:solarized_termcolors=256
 colorscheme solarized
 if has('gui_running')
@@ -66,17 +70,32 @@ endif
 filetype on
 
 " Keep 500 lines of command history
-set history=500
+set history=10000
 
 " Set the statusline to always be shown
 set laststatus=2
 
 " Show the cursor position at all times
 set ruler
+" Highlight the current ine
+set cursorline
+
+set winwidth=79
+" Prevent Vim from clobbering the scrollback buffer. See
+" http://www.shallowsky.com/linux/noaltscreen.html
+set t_ti= t_te=
+" display incomplete commands
+set showcmd
 
 " make searches case-insensitive, unless they contain upper-case letters:
 set ignorecase
 set smartcase
+
+" Insert only one space when joining lines that contain sentence-terminating
+" punctuation like `.`.
+set nojoinspaces
+" If a file is changed outside of vim, automatically reload it without asking
+set autoread
 
 " Write backup files to a specific directory
 set backup
